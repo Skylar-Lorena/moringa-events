@@ -21,6 +21,8 @@
   --text: #1f2933;
   /* Soft grey used for card borders */
   --border: #d9dfe8;
+  /* Maximum width of the page content (widened on very large screens below) */
+  --page-width: 1100px;
 }
 
 /* Make every element include padding and border in its width, which makes sizing easier */
@@ -28,6 +30,11 @@
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+/* Make sure anything with the hidden attribute really disappears, even if other rules set display */
+[hidden] {
+  display: none !important;
 }
 
 /* Remove the default browser margin and set the base font for the whole page */
@@ -58,8 +65,9 @@ header {
 header h1 {
   margin: 0 auto 1rem;
   /* Keep the title lined up with the rest of the page content */
-  max-width: 1100px;
-  font-size: 1.9rem;
+  max-width: var(--page-width);
+  /* clamp(min, preferred, max): the title shrinks smoothly on small screens */
+  font-size: clamp(1.5rem, 4vw, 1.9rem);
   line-height: 1.2;
 }
 
@@ -67,7 +75,7 @@ header h1 {
 
 /* The navigation bar inside the header */
 nav {
-  max-width: 1100px;
+  max-width: var(--page-width);
   margin: 0 auto;
 }
 
@@ -106,7 +114,7 @@ nav a:focus-visible {
 
 /* The main area of the page, centred and not too wide for easy reading */
 main {
-  max-width: 1100px;
+  max-width: var(--page-width);
   margin: 0 auto;
   padding: 2rem 1rem;
 }
@@ -116,8 +124,8 @@ main {
 /* The events section becomes a responsive grid of cards */
 #events {
   display: grid;
-  /* As many columns as fit, each at least 320px wide */
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  /* Default (desktop): three equal columns. Media queries at the bottom change this. */
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
 }
 
@@ -136,6 +144,13 @@ main {
 
 /* Each event article is styled as a card */
 article {
+  /* Lets the badges sit on top of the image using absolute positioning */
+  position: relative;
+  /* Stack the card's parts top to bottom so the buttons can sit at the bottom edge */
+  display: flex;
+  flex-direction: column;
+  /* Allows the card to shrink inside the grid instead of overflowing on small screens */
+  min-width: 0;
   background-color: var(--white);
   border: 1px solid var(--border);
   /* Thick orange top edge marks each card */
@@ -149,15 +164,79 @@ article {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* Cards lift slightly when the mouse is over them */
-article:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 18px rgba(11, 31, 58, 0.18);
+/* Hover effect: the card lifts, gets a deeper shadow and its top edge turns navy.
+   focus-within gives keyboard users the same effect when they tab to a link inside. */
+article:hover,
+article:focus-within {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(11, 31, 58, 0.22);
+  border-top-color: var(--navy);
+}
+
+/* On hover the event title turns dark orange so people see which card is active */
+article:hover h3,
+article:focus-within h3 {
+  color: var(--orange-dark);
+}
+
+/* ---------- Badges (rounded pills) ---------- */
+
+/* Container that holds the badges and floats them over the top-left of the image */
+.badges {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  /* Never wider than the card, so long badges wrap instead of spilling out */
+  max-width: calc(100% - 1.5rem);
+  display: flex;
+  /* Badges wrap onto a new line if the card is very narrow */
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* Shared pill shape for every badge */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.85rem;
+  /* A very large radius turns the rectangle into a pill */
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.4;
+  /* Small shadow keeps the badge readable on any photo */
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* In-person events: solid navy pill */
+.badge-in-person {
+  background-color: var(--navy);
+  color: var(--white);
+}
+
+/* Online events: solid orange pill with navy text for good contrast */
+.badge-online {
+  background-color: var(--orange);
+  color: var(--navy);
+}
+
+/* Hybrid events: white pill with an orange outline (a mix of both styles) */
+.badge-hybrid {
+  background-color: var(--white);
+  color: var(--navy);
+  border: 2px solid var(--orange);
+}
+
+/* Cost badge: light pill with navy text, shown next to the format badge */
+.badge-cost {
+  background-color: var(--page-bg);
+  color: var(--navy);
 }
 
 /* The sample image at the top of each card */
 article img {
   display: block;
+  /* Never let the flex layout squash the image */
+  flex-shrink: 0;
   width: 100%;
   height: 180px;
   /* Crop the image to fill the space without stretching it */
@@ -173,6 +252,8 @@ article h3 {
   color: var(--navy);
   font-size: 1.35rem;
   line-height: 1.3;
+  /* Smooth colour change when the card is hovered */
+  transition: color 0.2s;
 }
 
 /* ---------- Event details (description list) ---------- */
@@ -181,9 +262,10 @@ article h3 {
 article dl {
   margin: 0;
   padding: 0 1.25rem 1.25rem;
-  /* Two columns: labels on the left, values on the right */
+  /* Two columns: labels on the left, values on the right.
+     minmax(0, 1fr) lets the value column shrink so long text wraps instead of overflowing. */
   display: grid;
-  grid-template-columns: 6.5rem 1fr;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
   gap: 0.5rem 0.75rem;
   font-size: 1rem;
 }
@@ -197,6 +279,8 @@ article dt {
 /* The values that go with each label */
 article dd {
   margin: 0;
+  /* Long words or emails wrap instead of pushing the card wider than the screen */
+  overflow-wrap: anywhere;
 }
 
 /* The line-up list inside a card: tidy bullets with a little indent */
@@ -210,9 +294,287 @@ article dd li {
   margin-bottom: 0.25rem;
 }
 
-/* The time tag keeps normal text styling but never breaks across lines awkwardly */
-article time {
-  white-space: nowrap;
+/* ---------- Card buttons and extra details ---------- */
+
+/* The extra details revealed by the "Explore event" button */
+.event-more {
+  /* Thin line separates the extra details from the summary above */
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+}
+
+/* The row that holds the Explore and Book buttons */
+.card-actions {
+  /* Pushes the buttons to the bottom of the card so they line up across a row of cards */
+  margin-top: auto;
+  display: flex;
+  /* Buttons drop onto a second line if the card is very narrow */
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0 1.25rem 1.25rem;
+}
+
+/* Inside a card, each button shares the row equally */
+.card-actions .btn {
+  flex: 1 1 8rem;
+}
+
+/* Shared button shape used by every button on the site */
+.btn {
+  /* Buttons do not inherit the page font by default, so we ask for it */
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  /* At least 44px tall so it is easy to tap on a phone */
+  min-height: 44px;
+  padding: 0.6rem 1.25rem;
+  /* Pill shape to match the badges */
+  border-radius: 999px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  /* Smooth colour change on hover */
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+/* Main action button: orange with navy text for strong contrast */
+.btn-solid {
+  background-color: var(--orange);
+  border-color: var(--orange);
+  color: var(--navy);
+}
+
+/* Main button on hover or keyboard focus: flips to navy */
+.btn-solid:hover,
+.btn-solid:focus-visible {
+  background-color: var(--navy);
+  border-color: var(--navy);
+  color: var(--white);
+}
+
+/* Secondary button: outlined navy on a white background */
+.btn-outline {
+  background-color: var(--white);
+  border-color: var(--navy);
+  color: var(--navy);
+}
+
+/* Secondary button on hover or keyboard focus: fills with navy */
+.btn-outline:hover,
+.btn-outline:focus-visible {
+  background-color: var(--navy);
+  color: var(--white);
+}
+
+/* A button that is switched off while the demo payment is "processing" */
+.btn:disabled {
+  opacity: 0.6;
+  /* Show that it cannot be clicked */
+  cursor: not-allowed;
+}
+
+/* A button that stretches across the full width of its container */
+.btn-full {
+  width: 100%;
+}
+
+/* Clear focus ring for keyboard users on buttons and form fields */
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 2px;
+}
+
+/* ---------- Demo checkout pop-up ---------- */
+
+/* The checkout window (a <dialog> element). We do not set display here, so it stays hidden until opened. */
+dialog {
+  /* Remove the default border and padding; the inner box handles spacing */
+  border: none;
+  padding: 0;
+  border-radius: 12px;
+  background-color: var(--white);
+  color: var(--text);
+  /* Never wider than 480px, and never wider than the screen */
+  width: min(92vw, 480px);
+  /* Scroll inside the window if the screen is short */
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+/* The dimmed area behind the pop-up */
+dialog::backdrop {
+  background-color: rgba(11, 31, 58, 0.65);
+}
+
+/* Stop the page behind from scrolling while the pop-up is open */
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+
+/* The padded white box inside the pop-up */
+.checkout-body {
+  /* Lets the close button be placed in the top-right corner */
+  position: relative;
+  padding: 1.5rem;
+}
+
+/* The checkout title */
+.checkout-body h2 {
+  margin: 0 2.5rem 0.75rem 0;
+  color: var(--navy);
+  font-size: 1.5rem;
+}
+
+/* The confirmation title shown after checkout */
+.checkout-body h3 {
+  margin: 0 0 0.5rem;
+  color: var(--navy);
+  font-size: 1.4rem;
+}
+
+/* The round close (x) button in the top-right corner */
+.close-btn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  color: var(--navy);
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* Close button hover and focus: light background */
+.close-btn:hover,
+.close-btn:focus-visible {
+  background-color: var(--page-bg);
+}
+
+/* The "demo only" warning box */
+.demo-notice {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  background-color: #fff3e0;
+  border-left: 4px solid var(--orange);
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+/* The box that shows which event is being booked */
+.checkout-summary {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--page-bg);
+  border-radius: 8px;
+}
+
+/* Remove extra space between lines inside the summary box */
+.checkout-summary p {
+  margin: 0.15rem 0;
+  font-size: 1rem;
+}
+
+/* The event name in the summary box */
+.checkout-summary .summary-title {
+  color: var(--navy);
+  font-weight: 700;
+}
+
+/* Labels above form fields such as quantity and phone number */
+.field-label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+/* Number and phone input boxes */
+input[type="number"],
+input[type="tel"] {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  font-family: inherit;
+  font-size: 1rem;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+}
+
+/* The group of payment choices: remove the default fieldset border */
+fieldset {
+  margin: 1rem 0;
+  padding: 0;
+  border: none;
+}
+
+/* The question above the payment choices */
+legend {
+  padding: 0;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+/* Each payment choice is a large clickable card */
+.pay-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* The chosen payment option gets an orange border and soft orange background */
+.pay-option:has(input:checked) {
+  border-color: var(--orange);
+  background-color: #fff3e0;
+}
+
+/* Line the radio circle up with the first line of text */
+.pay-option input {
+  margin-top: 0.4rem;
+}
+
+/* Small helper text under fields */
+.hint {
+  margin: 0.3rem 0 0;
+  font-size: 0.9rem;
+  color: #52606d;
+}
+
+/* The total row: label on the left, amount on the right */
+.checkout-total {
+  display: flex;
+  justify-content: space-between;
+  margin: 1.25rem 0 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  font-size: 1.2rem;
+  color: var(--navy);
+}
+
+/* Status message such as "Sending a demo payment request..." */
+.status {
+  /* Reserve a line of height so the layout does not jump when text appears */
+  min-height: 1.6em;
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+  color: var(--orange-dark);
+}
+
+/* The booking code line in the confirmation message */
+.booking-code {
+  padding: 0.75rem 1rem;
+  background-color: var(--page-bg);
+  border-radius: 8px;
+  font-size: 1.2rem;
 }
 
 /* ---------- Links ---------- */
@@ -266,16 +628,61 @@ footer a:focus-visible {
   color: var(--orange);
 }
 
-/* ---------- Small screens ---------- */
+/* ==========================================================
+   Responsive design (media queries)
+   Each block below only applies when the screen matches its condition.
+   ========================================================== */
 
-/* Rules that only apply when the screen is 480px wide or less (phones) */
-@media (max-width: 480px) {
-  /* A single column of cards, and smaller minimum width so nothing overflows */
+/* Large screens (1400px and wider): let the page grow a little wider */
+@media (min-width: 1400px) {
+  /* Changing the variable widens the header, nav and main content together */
+  :root {
+    --page-width: 1300px;
+  }
+}
+
+/* Tablets and small laptops (900px and narrower): two cards per row */
+@media (max-width: 900px) {
+  /* Switch the grid from three columns to two */
+  #events {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Phones (600px and narrower): one card per row */
+@media (max-width: 600px) {
+  /* Switch the grid to a single full-width column */
   #events {
     grid-template-columns: 1fr;
   }
 
-  /* Stack the label above its value so details have more room */
+  /* Less space around the page content so cards use the full screen width */
+  main {
+    padding: 1.25rem 0.75rem;
+  }
+
+  /* Smaller section heading on phones */
+  #events h2 {
+    font-size: 1.6rem;
+  }
+
+  /* Each nav item grows to share the row, which makes bigger tap targets */
+  nav li {
+    flex: 1 1 auto;
+  }
+
+  /* Centre the text inside each nav link */
+  nav a {
+    text-align: center;
+    padding: 0.7rem 0.9rem;
+  }
+
+  /* Slightly shorter images so cards are not too tall on a phone */
+  article img {
+    height: 160px;
+  }
+
+  /* Stack each label above its value so the details have the full card width */
   article dl {
     grid-template-columns: 1fr;
     gap: 0.1rem;
@@ -285,9 +692,21 @@ footer a:focus-visible {
   article dt {
     margin-top: 0.5rem;
   }
+}
 
-  /* Slightly smaller site title on phones */
-  header h1 {
-    font-size: 1.5rem;
+/* Accessibility: if a person has asked their device to reduce motion, turn animations off */
+@media (prefers-reduced-motion: reduce) {
+  /* Remove the smooth transitions */
+  article,
+  article h3,
+  nav a,
+  .btn {
+    transition: none;
+  }
+
+  /* Keep the hover shadow but stop the card from moving */
+  article:hover,
+  article:focus-within {
+    transform: none;
   }
 }

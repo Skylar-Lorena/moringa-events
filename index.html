@@ -1,6 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moringa School Events Hub</title>
   <link rel="stylesheet" href="style.css">
+  <!-- defer = wait until the page has loaded, then run the script -->
 </head>
 <body>
   <header>
@@ -14,11 +19,400 @@
   </header>
 
   <main>
-    <!-- your events section goes here -->
+    <section id="events">
+      <h2>Upcoming Events</h2>
+
+    <!-- Event 1 -->
+    <article>
+      <img src="/assets/2150010127-768x512.jpg" alt="Students learning web development in a classroom">
+      <div class="badges">
+        <span class="badge badge-in-person">In-person</span>
+        <span class="badge badge-cost">Free</span>
+      </div>
+      <h3>Intro to Web Development Workshop</h3>
+
+      <!-- Summary details: always visible -->
+      <dl>
+        <dt>Date</dt>
+        <dd><time datetime="2026-12-03">Thursday, 3 December 2026</time></dd>
+
+        <dt>Time</dt>
+        <dd><time datetime="10:00">10:00 AM</time> to <time datetime="13:00">1:00 PM</time> EAT</dd>
+
+        <dt>Venue</dt>
+        <dd>Moringa School Campus, Ngong Road, Nairobi (Room 2)</dd>
+
+        <dt>Format</dt>
+        <dd>In-person</dd>
+
+        <dt>Cost</dt>
+        <dd>Free</dd>
+      </dl>
+
+      <!-- Extra details: hidden until the Explore button is pressed -->
+      <div class="event-more" id="event-1-more" hidden>
+        <dl>
+          <dt>How to join</dt>
+          <dd>Register on the Events Hub, then bring your laptop and student ID to the front desk.</dd>
+
+          <dt>Line-up</dt>
+          <dd>
+            <ul>
+            <li>10:00 AM – Welcome and what is the web?</li>
+            <li>10:30 AM – Build your first HTML page</li>
+            <li>11:30 AM – Styling with CSS</li>
+            <li>12:30 PM – Questions and next steps</li>
+            </ul>
+          </dd>
+
+          <dt>Contact</dt>
+          <dd><a href="mailto:events@moringaschool.example">events@moringaschool.example</a></dd>
+        </dl>
+      </div>
+
+      <!-- Buttons: JavaScript in script.js makes them work -->
+      <div class="card-actions">
+        <button type="button" class="btn btn-outline explore-btn" aria-expanded="false" aria-controls="event-1-more">Explore event</button>
+        <button type="button" class="btn btn-solid book-btn" data-event="Intro to Web Development Workshop" data-price="0" data-unit="ticket">Book now</button>
+      </div>
+    </article>
+
+    <!-- Event 2 -->
+    <article>
+      <img src="/assets/accelerated-learning-2-1.jpg" alt="Panel speakers discussing data science careers online">
+      <div class="badges">
+        <span class="badge badge-online">Online</span>
+        <span class="badge badge-cost">Free</span>
+      </div>
+      <h3>Data Science Career Panel</h3>
+
+      <!-- Summary details: always visible -->
+      <dl>
+        <dt>Date</dt>
+        <dd><time datetime="2026-12-08">Tuesday, 8 December 2026</time></dd>
+
+        <dt>Time</dt>
+        <dd><time datetime="18:00">6:00 PM</time> to <time datetime="19:30">7:30 PM</time> EAT</dd>
+
+        <dt>Venue</dt>
+        <dd>Online (Google Meet)</dd>
+
+        <dt>Format</dt>
+        <dd>Online</dd>
+
+        <dt>Cost</dt>
+        <dd>Free</dd>
+      </dl>
+
+      <!-- Extra details: hidden until the Explore button is pressed -->
+      <div class="event-more" id="event-2-more" hidden>
+        <dl>
+          <dt>How to join</dt>
+          <dd>Register to receive the meeting link by email 1 hour before the session starts.</dd>
+
+          <dt>Line-up</dt>
+          <dd>
+            <ul>
+            <li>6:00 PM – Opening remarks</li>
+            <li>6:10 PM – Panel: Breaking into data science</li>
+            <li>7:00 PM – Live audience Q&amp;A</li>
+            <li>7:25 PM – Closing</li>
+            </ul>
+          </dd>
+
+          <dt>Contact</dt>
+          <dd><a href="mailto:events@moringaschool.example">events@moringaschool.example</a></dd>
+        </dl>
+      </div>
+
+      <!-- Buttons: JavaScript in script.js makes them work -->
+      <div class="card-actions">
+        <button type="button" class="btn btn-outline explore-btn" aria-expanded="false" aria-controls="event-2-more">Explore event</button>
+        <button type="button" class="btn btn-solid book-btn" data-event="Data Science Career Panel" data-price="0" data-unit="ticket">Book now</button>
+      </div>
+    </article>
+
+    <!-- Event 3 -->
+    <article>
+      <img src="/assets/backend-768x514.jpg" alt="Students presenting their projects in a hall">
+      <div class="badges">
+        <span class="badge badge-hybrid">Hybrid</span>
+        <span class="badge badge-cost">Free</span>
+      </div>
+      <h3>Student Project Showcase Day</h3>
+
+      <!-- Summary details: always visible -->
+      <dl>
+        <dt>Date</dt>
+        <dd><time datetime="2026-12-12">Saturday, 12 December 2026</time></dd>
+
+        <dt>Time</dt>
+        <dd><time datetime="09:00">9:00 AM</time> to <time datetime="16:00">4:00 PM</time> EAT</dd>
+
+        <dt>Venue</dt>
+        <dd>Moringa School Main Hall, Nairobi (livestream on the Events Hub)</dd>
+
+        <dt>Format</dt>
+        <dd>Hybrid</dd>
+
+        <dt>Cost</dt>
+        <dd>Free</dd>
+      </dl>
+
+      <!-- Extra details: hidden until the Explore button is pressed -->
+      <div class="event-more" id="event-3-more" hidden>
+        <dl>
+          <dt>How to join</dt>
+          <dd>Attend in person by registering for a seat, or watch the livestream link on the Events Hub page.</dd>
+
+          <dt>Line-up</dt>
+          <dd>
+            <ul>
+            <li>9:00 AM – Doors open and project demos</li>
+            <li>11:00 AM – Top 5 project presentations</li>
+            <li>1:00 PM – Lunch and networking</li>
+            <li>2:30 PM – Awards and closing</li>
+            </ul>
+          </dd>
+
+          <dt>Contact</dt>
+          <dd><a href="mailto:events@moringaschool.example">events@moringaschool.example</a></dd>
+        </dl>
+      </div>
+
+      <!-- Buttons: JavaScript in script.js makes them work -->
+      <div class="card-actions">
+        <button type="button" class="btn btn-outline explore-btn" aria-expanded="false" aria-controls="event-3-more">Explore event</button>
+        <button type="button" class="btn btn-solid book-btn" data-event="Student Project Showcase Day" data-price="0" data-unit="ticket">Book now</button>
+      </div>
+    </article>
+
+    <!-- Event 4 -->
+    <article>
+      <img src="/assets/cyber_security-768x468.jpg" alt="Laptop showing a CV being edited">
+      <div class="badges">
+        <span class="badge badge-online">Online</span>
+        <span class="badge badge-cost">KES 500</span>
+      </div>
+      <h3>CV and LinkedIn Clinic</h3>
+
+      <!-- Summary details: always visible -->
+      <dl>
+        <dt>Date</dt>
+        <dd><time datetime="2026-12-17">Thursday, 17 December 2026</time></dd>
+
+        <dt>Time</dt>
+        <dd><time datetime="14:00">2:00 PM</time> to <time datetime="16:00">4:00 PM</time> EAT</dd>
+
+        <dt>Venue</dt>
+        <dd>Online (Zoom)</dd>
+
+        <dt>Format</dt>
+        <dd>Online</dd>
+
+        <dt>Cost</dt>
+        <dd>KES 500</dd>
+      </dl>
+
+      <!-- Extra details: hidden until the Explore button is pressed -->
+      <div class="event-more" id="event-4-more" hidden>
+        <dl>
+          <dt>How to join</dt>
+          <dd>Pay the fee when you register. A Zoom link and a CV checklist are sent to your email.</dd>
+
+          <dt>Line-up</dt>
+          <dd>
+            <ul>
+            <li>2:00 PM – What recruiters look for</li>
+            <li>2:30 PM – Fixing your CV, step by step</li>
+            <li>3:15 PM – Improving your LinkedIn profile</li>
+            <li>3:45 PM – Open Q&amp;A</li>
+            </ul>
+          </dd>
+
+          <dt>Contact</dt>
+          <dd><a href="mailto:events@moringaschool.example">events@moringaschool.example</a></dd>
+        </dl>
+      </div>
+
+      <!-- Buttons: JavaScript in script.js makes them work -->
+      <div class="card-actions">
+        <button type="button" class="btn btn-outline explore-btn" aria-expanded="false" aria-controls="event-4-more">Explore event</button>
+        <button type="button" class="btn btn-solid book-btn" data-event="CV and LinkedIn Clinic" data-price="500" data-unit="ticket">Book now</button>
+      </div>
+    </article>
+
+    <!-- Event 5 -->
+    <article>
+      <img src="/assets/Latasha-Ndirangu-1.png" alt="Teams coding together during a hackathon">
+      <div class="badges">
+        <span class="badge badge-hybrid">Hybrid</span>
+        <span class="badge badge-cost">KES 1,000 per team</span>
+      </div>
+      <h3>Hackathon: Build for Your Community</h3>
+
+      <!-- Summary details: always visible -->
+      <dl>
+        <dt>Date</dt>
+        <dd><time datetime="2027-01-16">Saturday, 16 January 2027</time></dd>
+
+        <dt>Time</dt>
+        <dd><time datetime="08:30">8:30 AM</time> to <time datetime="20:00">8:00 PM</time> EAT</dd>
+
+        <dt>Venue</dt>
+        <dd>Moringa School Innovation Lab, Nairobi, with online team rooms on Discord</dd>
+
+        <dt>Format</dt>
+        <dd>Hybrid</dd>
+
+        <dt>Cost</dt>
+        <dd>KES 1,000 per team</dd>
+      </dl>
+
+      <!-- Extra details: hidden until the Explore button is pressed -->
+      <div class="event-more" id="event-5-more" hidden>
+        <dl>
+          <dt>How to join</dt>
+          <dd>Form a team of 3 to 4 people and register once as a team. Online teams join their Discord room after check-in.</dd>
+
+          <dt>Line-up</dt>
+          <dd>
+            <ul>
+            <li>8:30 AM – Check-in and challenge briefing</li>
+            <li>9:30 AM – Coding begins</li>
+            <li>5:00 PM – Final submissions</li>
+            <li>6:00 PM – Pitches and prize giving</li>
+            </ul>
+          </dd>
+
+          <dt>Contact</dt>
+          <dd><a href="mailto:events@moringaschool.example">events@moringaschool.example</a></dd>
+        </dl>
+      </div>
+
+      <!-- Buttons: JavaScript in script.js makes them work -->
+      <div class="card-actions">
+        <button type="button" class="btn btn-outline explore-btn" aria-expanded="false" aria-controls="event-5-more">Explore event</button>
+        <button type="button" class="btn btn-solid book-btn" data-event="Hackathon: Build for Your Community" data-price="1000" data-unit="team">Book now</button>
+      </div>
+    </article>
+
+    <!-- Event 6 -->
+    <article>
+      <img src="/assets/moringa-devops-ms002-768x432.jpg" alt="Alumni networking at an evening event">
+      <div class="badges">
+        <span class="badge badge-in-person">In-person</span>
+        <span class="badge badge-cost">Free for students</span>
+      </div>
+      <h3>Alumni Networking Evening</h3>
+
+      <!-- Summary details: always visible -->
+      <dl>
+        <dt>Date</dt>
+        <dd><time datetime="2027-01-28">Thursday, 28 January 2027</time></dd>
+
+        <dt>Time</dt>
+        <dd><time datetime="17:30">5:30 PM</time> to <time datetime="20:00">8:00 PM</time> EAT</dd>
+
+        <dt>Venue</dt>
+        <dd>Moringa School Rooftop Lounge, Nairobi</dd>
+
+        <dt>Format</dt>
+        <dd>In-person</dd>
+
+        <dt>Cost</dt>
+        <dd>Free for students and alumni, KES 1,500 for guests</dd>
+      </dl>
+
+      <!-- Extra details: hidden until the Explore button is pressed -->
+      <div class="event-more" id="event-6-more" hidden>
+        <dl>
+          <dt>How to join</dt>
+          <dd>Register on the Events Hub and show your confirmation email at the entrance.</dd>
+
+          <dt>Line-up</dt>
+          <dd>
+            <ul>
+            <li>5:30 PM – Arrival and refreshments</li>
+            <li>6:15 PM – Alumni lightning talks</li>
+            <li>7:00 PM – Guided networking</li>
+            <li>7:45 PM – Closing</li>
+            </ul>
+          </dd>
+
+          <dt>Contact</dt>
+          <dd><a href="mailto:events@moringaschool.example">events@moringaschool.example</a></dd>
+        </dl>
+      </div>
+
+      <!-- Buttons: JavaScript in script.js makes them work -->
+      <div class="card-actions">
+        <button type="button" class="btn btn-outline explore-btn" aria-expanded="false" aria-controls="event-6-more">Explore event</button>
+        <button type="button" class="btn btn-solid book-btn" data-event="Alumni Networking Evening" data-price="1500" data-unit="ticket" data-note="Students and alumni attend free (show your ID at the entrance). This price is for guests.">Book now</button>
+      </div>
+    </article>
+
+    </section>
   </main>
 
-  <footer>
+  <footer id="contact">
     <p>&copy; 2026 Moringa School Events Hub (course project)</p>
     <p><a href="mailto:events@moringaschool.example">events@moringaschool.example</a></p>
   </footer>
+
+  <!-- Demo checkout: a <dialog> is a built-in pop-up window. It stays hidden until JavaScript opens it. -->
+  <dialog id="checkout" aria-labelledby="checkout-title">
+    <div class="checkout-body">
+      <button type="button" class="close-btn" data-close aria-label="Close checkout">&times;</button>
+      <h2 id="checkout-title">Checkout</h2>
+      <p class="demo-notice"><strong>Demo only.</strong> No real money is taken and nothing is saved. Please do not enter real payment details.</p>
+
+      <form id="checkout-form">
+        <div class="checkout-summary">
+          <p class="summary-title" id="checkout-event"></p>
+          <p id="checkout-price"></p>
+          <p id="checkout-note" hidden></p>
+        </div>
+
+        <label class="field-label" for="quantity" id="quantity-label">Number of tickets</label>
+        <input type="number" id="quantity" name="quantity" min="1" max="5" value="1" required>
+
+        <fieldset id="payment-options">
+          <legend>How would you like to pay?</legend>
+
+          <label class="pay-option">
+            <input type="radio" name="method" value="gate" checked>
+            <span><strong>Pay at the gate</strong><br><small>Reserve now and pay when you arrive.</small></span>
+          </label>
+
+          <label class="pay-option">
+            <input type="radio" name="method" value="mobile">
+            <span><strong>Mobile pay (demo)</strong><br><small>Get a sample payment prompt on your phone.</small></span>
+          </label>
+        </fieldset>
+
+        <div id="mobile-fields" hidden>
+          <label class="field-label" for="phone">Phone number</label>
+          <input type="tel" id="phone" name="phone" inputmode="numeric" placeholder="0700000000"
+                 pattern="0[17][0-9]{8}" title="10 digits starting with 07 or 01, no spaces">
+          <p class="hint">Use a made-up number for this demo: 10 digits, no spaces.</p>
+        </div>
+
+        <p class="checkout-total"><span>Total</span> <strong id="checkout-total">Free</strong></p>
+        <p class="status" id="checkout-status" role="status"></p>
+        <button type="submit" class="btn btn-solid btn-full" id="checkout-submit">Reserve my spot</button>
+      </form>
+
+      <!-- Shown after the checkout is completed -->
+      <div id="checkout-result" hidden>
+        <h3 id="result-title" tabindex="-1"></h3>
+        <p id="result-message"></p>
+        <p class="booking-code">Booking code: <strong id="result-code"></strong></p>
+        <button type="button" class="btn btn-outline btn-full" data-close>Close</button>
+      </div>
+    </div>
+  </dialog>
+    <script src="/app.js"></script>
+
 </body>
+</html>
